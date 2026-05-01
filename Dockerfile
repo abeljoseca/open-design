@@ -14,5 +14,5 @@ EXPOSE 3000
 ENV NODE_ENV=production
 ENV PORT=3000
 
-# Comando para correr Next.js en modo producción
-CMD ["pnpm", "-C", "apps/web", "start"]
+# Comando directo sin pnpm
+CMD ["node", "apps/web/.next/standalone/server.js"]
