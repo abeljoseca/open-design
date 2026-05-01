@@ -32,4 +32,4 @@ ENV NODE_ENV=production
 ENV PORT=3000
 
 # Start
-CMD ["pnpm", "tools-dev", "run", "web"]
+CMD ["pnpm", "run", "-r", "--filter", "@open-design/web", "dev"]
