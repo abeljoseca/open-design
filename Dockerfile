@@ -1,4 +1,4 @@
-# Updated for Railway - with Python support and proper postinstall handling
+# Updated for Railway - with Python support and proper build handling
 FROM node:24-bullseye
 
 WORKDIR /app
@@ -12,17 +12,17 @@ RUN apt-get update && apt-get install -y \
 # Enable corepack y pnpm
 RUN corepack enable && corepack prepare pnpm@10.33.2 --activate
 
-# Copiar solo archivos de configuración
+# Copiar archivos de configuración
 COPY pnpm-lock.yaml .npmrc* package.json pnpm-workspace.yaml* ./
 
-# Instalar dependencias SIN ejecutar postinstall scripts
-RUN pnpm install --frozen-lockfile --ignore-scripts
+# Instalar dependencias (permitir postinstall)
+RUN pnpm install --frozen-lockfile
 
-# Ahora copiar TODO el código (incluyendo scripts/)
+# Copiar TODO el código
 COPY . .
 
-# Ejecutar postinstall scripts manualmente
-RUN pnpm exec pnpm run -r postinstall || true
+# Reinstalar en el directorio de la app web para asegurar que todo esté
+RUN pnpm install --frozen-lockfile
 
 # Build de Next.js
 RUN pnpm build
