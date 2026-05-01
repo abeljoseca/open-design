@@ -1,3 +1,4 @@
+# Updated for Railway - with Python support
 FROM node:24-bullseye
 
 WORKDIR /app
