@@ -7,15 +7,12 @@ RUN corepack enable && corepack prepare pnpm@10.33.2 --activate
 
 COPY . .
 RUN pnpm install --frozen-lockfile
-
-# Build con output standalone
 RUN pnpm build
 
-EXPOSE 3000
+EXPOSE 3000 7456
 
 ENV NODE_ENV=production
 ENV PORT=3000
 
-# Comando que Railway va a ejecutar
-ENTRYPOINT []
-CMD ["sh", "-c", "exec node apps/web/.next/standalone/server.js"]
+# Comando original del proyecto
+CMD ["pnpm", "tools-dev", "run", "web"]
