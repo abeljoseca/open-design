@@ -7,12 +7,14 @@ RUN corepack enable && corepack prepare pnpm@10.33.2 --activate
 
 COPY . .
 RUN pnpm install --frozen-lockfile
+
+# Build daemon + web estático
+RUN pnpm --filter @open-design/daemon build
 RUN pnpm build
 
-EXPOSE 3000 7456
+EXPOSE 7456
 
 ENV NODE_ENV=production
-ENV PORT=3000
 
-# Comando original del proyecto
-CMD ["pnpm", "tools-dev", "run", "web"]
+# El daemon sirve el frontend estático él mismo
+CMD ["node", "apps/daemon/dist/cli.js"]
