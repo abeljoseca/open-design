@@ -9,10 +9,14 @@ COPY . .
 RUN pnpm install --frozen-lockfile
 RUN pnpm build
 
+# Copiar archivos públicos necesarios
+RUN cp -r apps/web/.next/static apps/web/.next/standalone/.next/ 2>/dev/null || true
+RUN cp -r apps/web/public apps/web/.next/standalone/ 2>/dev/null || true
+
 EXPOSE 3000
 
 ENV NODE_ENV=production
 ENV PORT=3000
 
-# Comando directo sin pnpm
-CMD ["node", "apps/web/.next/standalone/server.js"]
+# Modo producción
+CMD ["node", "--no-deprecation", "apps/web/.next/standalone/server.js"]
